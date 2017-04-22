@@ -12,6 +12,7 @@ class Politician:
         self.username = username
         self.aff_scale = aff_scale
 
+
     def get_tweets(self):
         return api.user_timeline(screen_name=self.username)
 
@@ -32,6 +33,11 @@ class Politician:
         else:
             return (255, 255, 255)
 
+class Issue:
+    def __init__(self, text):
+        self.text = text
+
+
 
 policians = [
     Politician("Donald Trump", "realDonaldTrump", 1.5),
@@ -43,24 +49,36 @@ policians = [
 
 
 class MainWindow:
-    def __init__(self):
+    def __init__(self, politicians, issues):
         self.root = tk.Tk()
         self.root.wm_title("Twitter Search")
 
         # tk.Label(self.root, text="Issues").grid(row=0, column=0)
         # self.search_box = tk.Entry(self.root)
         # self.search_box.grid(row=1, column=0)
+        self.politicians = politicians
+        self.politicians_frame = tk.LabelFrame(self.root, text="Politicians", padx=10, pady=10)
+        self.render_politicians()
+        self.politicians_frame.grid(row=1, column=0, sticky="N")
 
-        tk.Label(self.root, text="Politicians").grid(row=0, column=0)
-        self.politicians_frame = tk.Frame(self.root, borderwidth=3)
-        self.politicians_frame.grid(row=0, column=0)
-        # self.politicians_vars = []
-        # self.politicans_checks = []
-        tk.Label(self.politicians_frame, text="Donald Trump").grid(row=0, column=0)
-        self.trump_var = tk.BooleanVar(False)
-        self.trump_check = tk.Checkbutton(self.politicians_frame, variable=self.trump_var)
-        self.trump_check.grid(row=0, column=1)
+        self.issues = issues
+        self.issues_frame = tk.LabelFrame(self.root, text="Issues", padx=10, pady=10)
+        self.issues_frame.grid(row=1, column=1)
+        self.render_issues()
 
+    def render_politicians(self):
+        for y in range(len(self.politicians)):
+            p = self.politicians[y]
+            tk.Label(self.politicians_frame, text=p.name).grid(row=y, column=0)
+            p.selected = tk.BooleanVar(False)
+            tk.Checkbutton(self.politicians_frame, variable=p.selected).grid(row=y, column=1)
+
+    def render_issues(self):
+        for y in range(len(self.issues)):
+            i = self.issues[y]
+            tk.Label(self.issues_frame, text="\"" + i.text + "\"").grid(row=y, column=0)
+            i.selected = tk.BooleanVar(False)
+            tk.Checkbutton(self.issues_frame, variable=i.selected).grid(row=y, column=1)
 
     def get_issues(self):
         return self.search_box.get()
@@ -80,12 +98,13 @@ if __name__ == "__main__":
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    issues = ["health", "care", "bill", "mexico", "senate", "fox"]
-    for p in policians:
-        tweets = p.get_tweets_with(issues)
-        print("\n" + p.name + ":")
-        for t in tweets:
-            print(t.text + "\n")
+    keys = ["health", "care", "bill", "mexico", "senate", "fox"]
+    issues = [Issue(key) for key in keys]
+    # for p in policians:
+    #     tweets = p.get_tweets_with(issues)
+    #     print("\n" + p.name + ":")
+    #     for t in tweets:
+    #         print(t.text + "\n")
 
-    win = MainWindow()
+    win = MainWindow(policians, issues)
     win.mainloop()
