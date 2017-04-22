@@ -24,6 +24,13 @@ class Politician:
                     hits.append(t)
         return hits
 
+    def get_box_color(self):
+        if self.aff_scale < 0:
+            return (255*(1+self.aff_scale), 255*(1+self.aff_scale), 255)
+        elif self.aff_scale > 0:
+            return (255, 255*(1-self.aff_scale), 255*(1-self.aff_scale))
+        else:
+            return (255, 255, 255)
 
 
 policians = [
