@@ -2,10 +2,10 @@ import tkinter as tk
 import tweepy
 import webbrowser
 
-CONSUMER_KEY = 'CgttBoHkNZxIfrckK2GVRadLU'
-CONSUMER_SECRET = 'VBKObpCgxxyZF8P2yd4vwy8UQajRX6XyA0O586tf6qIwL6dJO4'
-ACCESS_TOKEN = '3437097531-QYRVTjkDhryDG0GU6qi5A3a2KKioKBihXcSvK7S'
-ACCESS_TOKEN_SECRET = 'mJnCLV6uRKHkOesfjD2IoZEyTetJZq8cYaQqvX04nKERk'
+CONSUMER_KEY = 'REDACTED'
+CONSUMER_SECRET = 'REDACTED'
+ACCESS_TOKEN = 'REDACTED'
+ACCESS_TOKEN_SECRET = 'REDACTED'
 
 class Politician:
     def __init__(self, name, username, aff_scale):
